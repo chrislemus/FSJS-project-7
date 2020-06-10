@@ -4,19 +4,24 @@ import PhotoContainer from './PhotoContainer';
 
 const Search = ({match}) => {
     let query = match.params.query
-    let count = 0;
-    console.log(count)
+    let heading = `Results for: ${query}`
+    let count = 0; //this will keep track how many times component is rendered
+    let dataImporting = true; //photoContainer attribute to show loading spinner
+    
     return(
         <Consumer>
             { context => {
-                if (count === 0) {
-                    context.handleImageSearch(query)
-                    {/* setTimeout(() => { alert("Hello"); }, 3000); */}
+                if (count === 0) {//IMPORTANT: this will make sure api call is triggered only once
+                    //delays api call to prevent console error
+                    setTimeout(() => { context.handleImageSearch(query) }, .1)
                     count++
+                } 
+
+                if (context.searchImgs.length > 0) { //this will remove loading spinner once all img data has been imported into component
+                    dataImporting=false
                 }
-                console.log(count)
                 return (
-                    <PhotoContainer imgData={context.searchImgs} headingText="Results"/>
+                    <PhotoContainer imgData={context.searchImgs} headingText={heading} dataImporting={dataImporting}/>
                 );
             }}
         </Consumer>

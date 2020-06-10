@@ -9,7 +9,6 @@ const Computers = () => {
             { context => {
                 return(
                     <PhotoContainer imgData={context.featuredComputers} headingText="Images of: Computers"/>
-                    
                 );
             }}
         </Consumer>
